@@ -43,3 +43,6 @@
   .hud-main-text{
     text-align: center;
   }
+ #end-game{
+    display: none;
+  }

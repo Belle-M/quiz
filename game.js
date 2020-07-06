@@ -78,8 +78,9 @@ startGame = () => {
 };
 getNewQuestion = () => {
     if (availableQuestions.length == 0 || questionCounter >= MAX_QUESTION) {
-        //go to the end of page
-        return window.location.assign("/end.html");
+        $("#end-game").css("display" ,"flex");
+        $("#game").hide();
+    $("#final-score").text(score+ "/" + MAX_SCORE);
     }
     $(".correct-answer").empty();
     questionCounter++;
@@ -132,7 +133,7 @@ choices.click(e =>{
     setTimeout( () => {
 selectedChoice.parent().removeClass(classToApply);
 getNewQuestion();
-    }, 3000);
+    }, 2600);
 
 });
 

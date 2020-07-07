@@ -100,7 +100,7 @@ getNewQuestion = () => {
         // get that specific choice
         const choice = choices[index];
 
-        //populate it with the choice text from the array
+      
         $(choice).text(currentQuestion["choice" + $(choice).data("number")]);
       });
     availableQuestions.splice(questionIndex,1);
@@ -122,7 +122,7 @@ choices.click(e =>{
     }
     else { 
 
-        selectedChoice.siblings(".correct-answer").text(`Sorry/! Wrong answer. The correct answer is ${currentQuestion.answerText}`)
+        selectedChoice.siblings(".correct-answer").text(`Wrong answer. The correct answer is ${currentQuestion.answerText}`)
     
         console.log("wrong");
     }

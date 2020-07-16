@@ -1,3 +1,8 @@
+const start = $(".start");
+const questionContainer = $(".question-container");
+const header = $("header");
+
+
 const question = $("#question");
 const choices = $(".choice-text");
 const questionCounterText = $("#questionCounter");
@@ -6,142 +11,130 @@ const answer = $(".answerText");
 
 
 
-let currentQuestion = {};
+let currentQuestionIndex = 0;
+let currentQuestion 
 let acceptingAnswers = true;
 let score = 0;
 let questionCounter = 0;
 let availableQuestions = [];
 
 
-let questions = [
-    {
-
-question: "You're due for an upgrade on your phone. Your current one still works but you’ve had an eye on a newer version. You decide to…",
-choice1: "Get the upgrade… after all, you’ve had the old phone for so long and the new one looks awesome.",
-choice2: "Keep the old phone as long as you can -- every month you put off the upgrade, you’re saving money",
-choice3: "Sell your old phone and put the extra cash toward the new phone. While you’re at it, you downgrade your data plan to save a few bucks",
-choice4: "Ehhh,huh???",
-answerText:"Keep the old phone as long as you can -- every month you put off the upgrade, you’re saving money",
-answer:2
-    
-},
-    {
-question:"It's time to go grocery shopping. Do you:",
-choice1: "Who has time to grocery shop? Or to cook? Order in instead!",
-choice2: "YOLO",
-choice3: "Write a carefully constructed grocery list and price compare different stores",
-choice4: "Go to the nearest store with a general idea of what you need...you'll figure it out when you get there",
-answerText:"Write a carefully constructed grocery list and price compare different stores",
-answer:3
-    },
-
-    {
-question:"You find the perfect apartment, but the rent is way out of your price range. Do you:",
-choice1: "Keep looking, expanding your search to cheaper areas or smaller apartments -- a nice place isn’t worth going broke",
-choice2: "Move back in with your parents until your 75 birthday",
-choice3: "Look for a roommate to split the bills",
-choice4: "Live in your car, no one comes over anyways",
-answerText:"Keep looking, expanding your search to cheaper areas or smaller apartments -- a nice place isn’t worth going broke",
-answer:1
-    },
-    {
-        question:"Your friends are planning a dinner out but you’re dangerously close to exceeding your budget for the month, do you:",
-        choice1: "Arby's we have the MEATS",
-        choice2: "Ask a friend if they can pick up your tab — you’ll get them back next time!",
-        choice3: "Search for deals on Groupon or Living Social and steer the group to a cheaper restaurant with a great discount available",
-        choice4: "What do you mean ‘budget’? If everyone’s going out, I want to be there - I’ll just fill up on bread and order something cheap if I’m short on funds this week…",
-        answerText:"Search for deals on Groupon or Living Social and steer the group to a cheaper restaurant with a great discount available",
-        answer:3
-    },
-    {
-        question:"Your child is BEGGING for a new toy he saw somewhere, and he’s been a really big help lately. But it’s over $100. You...",
-        choice1: "Tell him he’ll have to wait until his birthday or put it on his Christmas list -- let Santa deal with it!",
-        choice2: "That's why grandparents exist",
-        choice3: "Just put it on the credit card. He’ll love it so much, and he’s only this age once -- it’s worth splurging for even if it’s more than you can afford right now",
-        choice4: "Help him count what's in his piggybank and encourage him to save up the rest to buy it for himself…",
-        answerText:"Help him count what's in his piggybank and encourage him to save up the rest to buy it for himself…",
-        answer:4
-    },
-    
-];
-
 //constants 
 const CORRECT_BONUS = 2;
-const MAX_QUESTION = 5;
+const MAX_QUESTION = questions.length;
 const MAX_SCORE = 10;
 
-startGame = () => {
-    questionCounter = 0;
-    score = 0;
-    availableQuestions = [...questions];
-    getNewQuestion();
-};
-getNewQuestion = () => {
-    if (availableQuestions.length == 0 || questionCounter >= MAX_QUESTION) {
-        $("#end-game").css("display" ,"flex");
-        $("#game").hide();
-    $("#final-score").text(score+ "/" + MAX_SCORE);
-    }
-    $(".correct-answer").empty();
-    questionCounter++;
-    questionCounterText.text(questionCounter + "/" + MAX_QUESTION);
+const init = () => {
+    start.click(() => {
+        header.hide()
+        questionContainer.show()
+        currentQuestion = questions[currentQuestionIndex];
 
+        displayQuestion(currentQuestion);
+        answerQuestion(currentQuestion);
+        next();
+        displayScore();
     
-    scoreText.text(score+ "/" + MAX_SCORE);
-
-
-    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
-    currentQuestion = availableQuestions [questionIndex];
-    question.text(currentQuestion.question);
-
-    // choices is a collection of all the elements on the HTML with the class "choice"
-    // index is the index of the element in the collection
-    choices.each((index) => {
-        // get that specific choice
-        const choice = choices[index];
-
-      
-        $(choice).text(currentQuestion["choice" + $(choice).data("number")]);
-      });
-    availableQuestions.splice(questionIndex,1);
-    acceptingAnswers = true;
+        
+    })
 }
-choices.click(e =>{
-    if(!acceptingAnswers) return;
+
+const displayQuestion = (questions) => {
+    const {question, choice1, choice2, choice3,choice4} = questions
+    const html = `
+    <h3>${question}</h3>
+    <form class"form">
+        <input required type="radio" id="choice1" name="question" value="choice1">
+        <label for="choice1">${choice1}</label><br>
+        <input required type="radio" id="choice2" name="question" value="choice2">
+        <label for="choice2">${choice2}</label><br>
+        <input required type="radio" id="choice3" name="question" value="choice3">
+        <label for="choice3">${choice3}</label><br>
+        <input required type="radio" id="choice4" name="question" value="choice4">
+        <label for="choice4">${choice4}</label><br>
+        <button type="submit" class="next">NEXT</button>
+
+    </form>
+    `
+    questionContainer.html(html);   
+}
+
+const displayFinal = () => {
+    const html = `
+    <h1>FINAL</h1>
+    <button class="restart">RESTART QUIZ</button>
+    `
+    questionContainer.html(html);
+}
+
+const restart = () => {
+    questionContainer.on("click", ".restart",()=>{
+        currentQuestionIndex = 0 
+        header.show()
+        questionContainer.hide()
+        init();
+    })
+}
+
+const next = () => {
+    questionContainer.on("submit", "form",(e)=> {
+        e.preventDefault();        
+        if(currentQuestionIndex === questions.length){ 
+            displayFinal();
+            displayScore();
+            restart();
+        } else {
+            currentQuestionIndex++
+            currentQuestion = questions[currentQuestionIndex];
+            displayQuestion(currentQuestion);
+            answerQuestion(currentQuestion);
+            displayScore();
+        }
+    });
+}
 
 
-    acceptingAnswers = false;
-    const selectedChoice = $(e.target);
-    const selectedAnswer = selectedChoice.data("number");
-
-    const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
-
-    if(classToApply === "correct"){
-        incrementScore(CORRECT_BONUS);
-        console.log("right");
-    }
-    else { 
-
-        selectedChoice.siblings(".correct-answer").text(`Wrong answer. The correct answer is ${currentQuestion.answerText}`)
+const answerQuestion = (currentQuestion) => {
+    $("form").on("click","input",(e)=>{
+       if($(e.currentTarget).val() === currentQuestion.answer){
+           console.log("correct");
+           $(e.currentTarget).next().after('<p class="correct">Correct</p>')
+           score= score + 2
+           
+       } else {
+           console.log("incorrect");
+           $(e.currentTarget).next().after(`<p class="incorrect">Incorrect: ${currentQuestion.answerText}</p>`)
+       }
+            $('input[type="radio"]').attr("disabled", true)
     
-        console.log("wrong");
-    }
+    })
+}
+const displayScore = () =>{
+const html = `<div id="hud-item">
+<p class="hud-prefix">
+    Question
+</p>
+<h1 class="hud-main-text" id ="questionCounter">
+${currentQuestionIndex +1}/${MAX_QUESTION}
+</h1>
+</div>
+<div id="hud-item">
+<p class="hud-prefix">
+Score
+</p>
+<h1 class="hud-main-text" id="Score">
+${score}/${MAX_SCORE}
+
+
+</h1>
+</div>`
+$("#hud").html(html)
+}
+
+const loader = () => {
+    init();
+}
+
+// startGame();
+$(loader);
     
-    
-    selectedChoice.parent().addClass(classToApply);
-
-    setTimeout( () => {
-selectedChoice.parent().removeClass(classToApply);
-getNewQuestion();
-    }, 2600);
-
-});
-
-incrementScore = num => {
-    score += num;
-    scoreText.text(score + "/" + MAX_SCORE);
-};
-
-
-
-startGame();

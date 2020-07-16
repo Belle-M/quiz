@@ -37,7 +37,7 @@
   
   h3 {
     font-size: 2.8rem;
-    font-weight: 500;
+    font-weight: bold;
   }
   
   /* UTILITIES */
@@ -47,15 +47,15 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     max-width: 80rem;
     margin: 0 auto;
     padding: 2rem;
   }
   
-  .container > * {
+  /* .container > * {
     width: 100%;
-  }
+  } */
   
   .flex-column {
     display: flex;
@@ -106,16 +106,16 @@
   }
   
   /* FORMS */
-  form {
+  /* form {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
+  } */
   
   input {
     margin-bottom: 1rem;
-    width: 20rem;
+    /* width: 20rem; */
     padding: 1.5rem;
     font-size: 1.8rem;
     border: none;
@@ -125,3 +125,36 @@
   input::placeholder {
     color: #aaa;
   }
+
+  .form input[type="radio"]{
+    display:none; 
+
+  }
+  form label {
+    font-size: 18.5px;
+    margin-bottom: 7px;
+  }
+
+  .next {
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    width: 20rem;
+    text-align: center;
+    border: 0.1rem solid #56a5eb;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: #56a5eb;
+    background-color: white;
+  }
+  .restart {
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    width: 20rem;
+    text-align: center;
+    border: 0.1rem solid #56a5eb;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: #56a5eb;
+    background-color: white;
+  }
+

@@ -28,6 +28,7 @@ const init = () => {
     start.click(() => {
         header.hide()
         questionContainer.show()
+        $("#hud").show();
         currentQuestion = questions[currentQuestionIndex];
 
         displayQuestion(currentQuestion);
@@ -38,12 +39,16 @@ const init = () => {
         
     })
 }
+const displayQuestion = (questions) => { 
+    const html = questionString(questions)
+     questionContainer.html(html);
+}
 
-const displayQuestion = (questions) => {
+const questionString = (questions) => {
     const {question, choice1, choice2, choice3,choice4} = questions
-    const html = `
+    return `
     <h3>${question}</h3>
-    <form class"form">
+    <form>
         <input required type="radio" id="choice1" name="question" value="choice1">
         <label for="choice1">${choice1}</label><br>
         <input required type="radio" id="choice2" name="question" value="choice2">
@@ -56,7 +61,6 @@ const displayQuestion = (questions) => {
 
     </form>
     `
-    questionContainer.html(html);   
 }
 
 const displayFinal = () => {
@@ -72,6 +76,7 @@ const restart = () => {
         currentQuestionIndex = 0 
         header.show()
         questionContainer.hide()
+        $("#hud").hide()
         init();
     })
 }
@@ -79,7 +84,7 @@ const restart = () => {
 const next = () => {
     questionContainer.on("submit", "form",(e)=> {
         e.preventDefault();        
-        if(currentQuestionIndex === questions.length){ 
+        if(currentQuestionIndex === questions.length -1){ 
             displayFinal();
             displayScore();
             restart();
@@ -97,7 +102,6 @@ const next = () => {
 const answerQuestion = (currentQuestion) => {
     $("form").on("click","input",(e)=>{
        if($(e.currentTarget).val() === currentQuestion.answer){
-           console.log("correct");
            $(e.currentTarget).next().after('<p class="correct">Correct</p>')
            score= score + 2
            

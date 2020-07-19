@@ -26,9 +26,12 @@
   }
   .correct {
     background-color: #28a745;
+    font-size: 16.5px;
   }
   .incorrect {
     background-color: #dc3545;
+    font-size: 16.5px;
+    color: white; border: 1px solid black; padding: 3px;
   }
   /* HUD */
   
@@ -43,6 +46,5 @@
   .hud-main-text{
     text-align: center;
   }
- #end-game{
-    display: none;
-  }
+  
+

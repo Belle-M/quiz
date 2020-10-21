@@ -1,4 +1,4 @@
-![Screenshot] 
+![Screenshot] (money.1.png)
 
 ## Quiz App 
 Created to test the users’ knowledge about budgeting and spending habits. It’s user-friendly, and accessible to everyone.

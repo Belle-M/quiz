@@ -58,7 +58,6 @@ const questionString = (questions) => {
         <input required type="radio" id="choice4" name="question" value="choice4">
         <label for="choice4">${choice4}</label><br>
         <button type="submit" class="next">NEXT</button>
-
     </form>
     `
 }
@@ -128,8 +127,6 @@ Score
 </p>
 <h1 class="hud-main-text" id="Score">
 ${score}/${MAX_SCORE}
-
-
 </h1>
 </div>`
 $("#hud").html(html)
